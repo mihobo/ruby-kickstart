@@ -31,25 +31,43 @@ class HTMLTag
     :monospace  => '"Courier New", "Lucida Console"'
   }
 
-  attr_accessor :name, :innerHTML, :options
+  COLORS = {
+    :red    => "#FF0000",
+    :green  => "#00FF00",
+    :blue   => "#0000FF"
+  }
+
+  attr_accessor :name, :innerHTML, :font, :color, :multiline
 
   # options: :multiline should be true or false
-  def initialize(name, innerHTML, options)
-    @name, @innerHTML, @options = name, innerHTML, options
-  end
-
-  def font
-    font = options[:font]  #  one of :serif, :sans_serif, or :monospace
-    FONTS[font]
+  def initialize(name, innerHTML, options = Hash.new)
+    @name = name
+    @innerHTML = innerHTML
+    self.font = FONTS[options[:font]]
+    self.color = COLORS[options[:color]]
+    self.multiline = options.fetch(:multiline, false)
   end
 
   def style
-    return nil unless options[:font]
-    "style='font-family:#{font}'"
+    styled = "style='"
+    if font || color
+      if font
+      styled << "font-family:#{font};"
+      end
+      if color
+      styled << "color:#{color};"
+      end
+    else
+      return nil
+    end
+    styled << "'"
+    return styled
   end
 
   def to_s
-    line_end = if options[:multiline] then "\n" else "" end
+    line_end = ""
+    #line_end = if options[:multiline] then "\n" else "" end
+    line_end = "\n" if multiline
     "<#{name} #{style}>#{line_end}"  \
     "#{innerHTML.chomp}#{line_end}"  \
     "</#{name}>\n"

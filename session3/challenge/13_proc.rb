@@ -52,5 +52,18 @@
 #   end
 # end       # => ["a", "m", "r", 1, 3, 4, 9, 2.5, 9.0, 25.8]
 
-def your_sort
+def your_sort (array, &block)
+
+  if !block_given?
+    array.sort { |a, b| a <=> b }
+  else
+    array.each_index do |first|
+      array.each_index do |second|
+        order = block.call(array[first], array[second])
+        if (order < 0)
+          array[first], array[second] = array[second], array[first]
+        end
+      end
+    end
+  end
 end

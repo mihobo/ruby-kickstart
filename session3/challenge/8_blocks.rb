@@ -26,11 +26,14 @@
 
 
 class Person
-  attr_accessor :name
+  attr_accessor :name, :age, :quote
 
-  def initialize(&initializer)
-    @initializer = initializer
-    initializer.call self
+  def initialize(artist = Hash.new, &initializer)
+    self.name = artist[:name]
+    self.age = artist[:age]
+    self.quote = artist[:quote]
+    @initializer = initializer ||  lambda {|person|}
+    reinit
   end
 
   def reinit

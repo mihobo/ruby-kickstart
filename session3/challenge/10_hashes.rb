@@ -29,5 +29,26 @@
 # create it from scratch :)
 
 
-def pathify
+def pathify dir = Hash.new
+
+  path = []
+
+  if dir.is_a? Array
+    dir.each { |folder| path << '/' + folder }
+    return path
+  elsif dir.empty?
+    return path
+  else
+    dir.each do |mainfolder, subfolder|
+      mainfolder = '/' + mainfolder
+      # subfolders contains folders and files
+      subfolders = pathify subfolder
+      # subfolders here is the files left as folders have been gone through above
+      subfolders.each do |subfolder|
+      # build the filepath and add it to the array
+      path << mainfolder + subfolder
+      end
+    end
+    return path
+  end
 end

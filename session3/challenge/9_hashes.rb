@@ -29,4 +29,35 @@
 # shared [1,2,3], [3,2,1]            # => [{1=>[true, true], 2=>[true, true], 3=>[true, true]}, [1, 2, 3]]
 
 def shared(a, b)
+  # union
+  keys = a | b
+  pair_values = []
+
+  keys.each do |key|
+    val1 = true
+    val2 = true
+
+    if !a.include? key
+      val1 = nil
+    end
+
+    if !b.include? key
+      val2 = nil
+    end
+
+    value = [val1, val2]
+    # key represents each key and result is the true/nil pair values
+    # goes through the loop for the amount of keys available
+    pair_values << [key, value]
+  end
+
+  # add all the pair_values to a hash in order assigned to each key
+  hash_pairs = Hash[pair_values.map {|key, value| [key, value]}]
+  # this puts only the duplicates in an array
+  duplicates = a & b
+  #add the two values into a single array
+  answer = [hash_pairs, duplicates ]
+
+  return answer
+
 end

@@ -7,3 +7,14 @@
 #
 # print_list_in_reverse head   # >> "1\n2\n"
 
+def print_list_in_reverse train
+  count = train[:data]
+  n = 0
+  answer = ""
+  while count > 0
+    n = n + 1
+    answer += n.to_s + "\n"
+    count -= 1
+  end
+  print answer
+end

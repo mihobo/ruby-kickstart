@@ -38,3 +38,8 @@
 # middle head                        # => 3
 # head = {:data => 6, :next => head}
 # middle head                        # => 3
+
+def middle train
+  count = train[:data] + 1
+  return count/2
+end
